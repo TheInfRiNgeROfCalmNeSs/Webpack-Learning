@@ -12,7 +12,7 @@ module.exports = {
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
-		publicPath: 'dist/',
+		publicPath: '/',
 		filename: '[name].js',
 		library: "[name]"
 	},
@@ -33,13 +33,9 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.js?$/,
+				test: /\.js$/,
 				exclude: /node_modules/,
-				loader: 'babel-loader',
-				options: {
-					plugins: ['babel-plugin-transform-runtime'],
-					presets: ['babel-preset-env']
-				}
+				loader: 'babel-loader'
 			}
 		]
 	},
