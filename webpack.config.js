@@ -6,8 +6,6 @@ const NODE_ENV = process.env.NODE_ENV || 'development'
 module.exports = {
 	context: path.resolve(__dirname, './src'),
 	entry: {
-		/*home: './home',
-		about: './about'*/
 		app: './app'
 	},
 	output: {
@@ -24,14 +22,10 @@ module.exports = {
 	plugins: [
 		new webpack.DefinePlugin({
 			NODE_ENV: JSON.stringify(NODE_ENV)
+		}),
+		new webpack.ProvidePlugin({
+			concat: "lodash/concat"
 		})
-		//new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /ru|en-gb/)
-		//new webpack.IgnorePlugin(/^\.\/zn-tw.js$/, /locale$/)
-		/*,
-		new webpack.optimize.CommonsChunkPlugin({
-			name: "commons",
-			chunks: ["home", "about"]
-		})*/
 	],
 	module: {
 		rules: [
@@ -42,9 +36,6 @@ module.exports = {
 			}
 		],
 		noParse: [/moment.js/]
-	},
-	externals: {
-		lodash: "_"
 	},
 	resolve: {
 		modules: ['node_modules'],
