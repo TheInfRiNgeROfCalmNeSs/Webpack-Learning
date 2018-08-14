@@ -8,7 +8,7 @@ module.exports = {
 	entry: {
 		/*home: './home',
 		about: './about'*/
-		routes: './routes'
+		app: './app'
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
@@ -24,7 +24,10 @@ module.exports = {
 	plugins: [
 		new webpack.DefinePlugin({
 			NODE_ENV: JSON.stringify(NODE_ENV)
-		})/*,
+		})
+		//new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /ru|en-gb/)
+		//new webpack.IgnorePlugin(/^\.\/zn-tw.js$/, /locale$/)
+		/*,
 		new webpack.optimize.CommonsChunkPlugin({
 			name: "commons",
 			chunks: ["home", "about"]
@@ -37,7 +40,11 @@ module.exports = {
 				exclude: /node_modules/,
 				loader: 'babel-loader'
 			}
-		]
+		],
+		noParse: [/moment.js/]
+	},
+	externals: {
+		lodash: "_"
 	},
 	resolve: {
 		modules: ['node_modules'],
