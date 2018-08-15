@@ -33,13 +33,20 @@ module.exports = {
 				test: /\.js$/,
 				exclude: /node_modules/,
 				loader: 'babel-loader'
+			},
+			{
+				test: /old.js$/,
+				loader: "imports-loader?workSettings=>{delay:500}!exports-loader?Work"
 			}
 		],
 		noParse: [/moment.js/]
 	},
 	resolve: {
 		modules: ['node_modules'],
-		extensions: ['.js']
+		extensions: ['.js'],
+		alias: {
+			old: path.resolve(__dirname, 'vendor/old/dist/old')
+		}
 	},
 	resolveLoader: {
 		modules: ['node_modules'],

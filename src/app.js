@@ -1,5 +1,9 @@
 "use strict"
 
+let old = require('old')
+
+old()
+
 var array = [1];
 var other = concat(array, 2, [3], [[4]]);
 
