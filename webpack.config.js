@@ -6,7 +6,7 @@ const NODE_ENV = process.env.NODE_ENV || 'development'
 module.exports = {
 	context: path.resolve(__dirname, './src'),
 	entry: {
-		app: './app'
+		main: './main'
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
@@ -22,9 +22,6 @@ module.exports = {
 	plugins: [
 		new webpack.DefinePlugin({
 			NODE_ENV: JSON.stringify(NODE_ENV)
-		}),
-		new webpack.ProvidePlugin({
-			concat: "lodash/concat"
 		})
 	],
 	module: {
@@ -35,18 +32,23 @@ module.exports = {
 				loader: 'babel-loader'
 			},
 			{
-				test: /old.js$/,
-				loader: "imports-loader?workSettings=>{delay:500}!exports-loader?Work"
+				test: /\.jade$/,
+				loader: "pug-loader"
+			},
+			{
+				test: /\.css$/,
+				loader: "style-loader!css-loader"
+			},
+			{
+				test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
+				loader: "file-loader?name=[path][name].[ext]"
 			}
 		],
 		noParse: [/moment.js/]
 	},
 	resolve: {
 		modules: ['node_modules'],
-		extensions: ['.js'],
-		alias: {
-			old: path.resolve(__dirname, 'vendor/old/dist/old')
-		}
+		extensions: ['.js']
 	},
 	resolveLoader: {
 		modules: ['node_modules'],
