@@ -1,0 +1,27 @@
+@require '../pics'
+
+.menu
+
+  .title
+    @extend .plus
+    padding 0 1% 0 3%
+    background-position left 1px
+    background-repeat no-repeat
+    background-size 1em
+    font-weight bold
+    cursor pointer
+
+  .list
+    display none
+    margin 0
+
+    a
+      color blue
+
+  &.open
+    .list
+      display block
+
+    .title {
+      @extend .minus
+    }
