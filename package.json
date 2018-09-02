@@ -19,6 +19,9 @@
     "pug": "^2.0.3",
     "pug-loader": "^2.4.0",
     "style-loader": "^0.22.1",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "url-loader": "^0.6.2",
     "webpack": "^3.11.0"
   },
   "devDependencies": {},
