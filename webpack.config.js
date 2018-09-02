@@ -40,15 +40,31 @@ module.exports = {
 				loader: "style-loader!css-loader"
 			},
 			{
-				test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
-				loader: "file-loader?name=[path][name].[ext]"
+				test: /\.styl$/,
+				loader: "style-loader!css-loader!stylus-loader?resolve url"
+			},
+			{
+				test: /\.(ttf|eot|woff|woff2|svg)$/,
+				loader: "file-loader",
+				options: {
+					name: '[path][name].[ext]'
+				}
+			},
+			{
+				test: /\.(png|jpg)$/,
+				loader: 'url-loader',
+				options: {
+					name: '[path][name].[ext]',
+					outputPath: 'images/',
+					limit: 32
+				}
 			}
 		],
 		noParse: [/moment.js/]
 	},
 	resolve: {
 		modules: ['node_modules'],
-		extensions: ['.js']
+		extensions: ['.js', ".styl"]
 	},
 	resolveLoader: {
 		modules: ['node_modules'],
