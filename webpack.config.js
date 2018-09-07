@@ -1,17 +1,22 @@
 var path = require('path')
 var webpack = require('webpack')
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var rimraf = require('rimraf')
 
 const NODE_ENV = process.env.NODE_ENV || 'development'
 
 module.exports = {
 	context: path.resolve(__dirname, './src'),
 	entry: {
-		main: './main'
+		home: './home',
+		about: './about',
+		common: './common'
 	},
 	output: {
-		path: path.resolve(__dirname, 'dist'),
-		publicPath: '/',
+		path: path.resolve(__dirname, 'dist/assets'),
+		publicPath: '/assets/',
 		filename: '[name].js',
+		chunkFilename: '[id].js',
 		library: "[name]"
 	},
 	watch: NODE_ENV == 'development',
@@ -41,7 +46,7 @@ module.exports = {
 			},
 			{
 				test: /\.styl$/,
-				loader: "style-loader!css-loader!stylus-loader?resolve url"
+				use: ExtractTextPlugin.extract({use: "css-loader!stylus-loader?resolve url"})
 			},
 			{
 				test: /\.(ttf|eot|woff|woff2|svg)$/,
@@ -59,8 +64,7 @@ module.exports = {
 					limit: 32
 				}
 			}
-		],
-		noParse: [/moment.js/]
+		]
 	},
 	resolve: {
 		modules: ['node_modules'],
@@ -70,7 +74,18 @@ module.exports = {
 		modules: ['node_modules'],
 		extensions: ['.js'],
 		moduleExtensions: ['*-loader', '*']
-	}
+	},
+	plugins: [
+		{
+			apply: (compiler) => {
+				rimraf.sync(compiler.options.output.path)
+			}
+		},
+		new ExtractTextPlugin({filename: "[name].css", allChunks: true}),
+		new webpack.optimize.CommonsChunkPlugin({
+			name: 'common'
+		})
+	]
 }
 
 if(NODE_ENV == 'production') {
