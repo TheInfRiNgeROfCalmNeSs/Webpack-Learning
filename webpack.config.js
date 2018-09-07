@@ -2,6 +2,7 @@ var path = require('path')
 var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var rimraf = require('rimraf')
+var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const NODE_ENV = process.env.NODE_ENV || 'development'
 
@@ -15,8 +16,8 @@ module.exports = {
 	output: {
 		path: path.resolve(__dirname, 'dist/assets'),
 		publicPath: '/assets/',
-		filename: '[name].js',
-		chunkFilename: '[id].js',
+		filename: '[name].[chunkhash].js',
+		chunkFilename: '[id].[chunkhash].js',
 		library: "[name]"
 	},
 	watch: NODE_ENV == 'development',
@@ -52,14 +53,14 @@ module.exports = {
 				test: /\.(ttf|eot|woff|woff2|svg)$/,
 				loader: "file-loader",
 				options: {
-					name: '[path][name].[ext]'
+					name: '[path][name].[hash:6].[ext]'
 				}
 			},
 			{
 				test: /\.(png|jpg)$/,
 				loader: 'url-loader',
 				options: {
-					name: '[path][name].[ext]',
+					name: '[path][name].[hash:6].[ext]',
 					outputPath: 'images/',
 					limit: 32
 				}
@@ -81,9 +82,13 @@ module.exports = {
 				rimraf.sync(compiler.options.output.path)
 			}
 		},
-		new ExtractTextPlugin({filename: "[name].css", allChunks: true}),
+		new ExtractTextPlugin({filename: "[name].[contenthash].css", allChunks: true}),
 		new webpack.optimize.CommonsChunkPlugin({
 			name: 'common'
+		}),
+		new HtmlWebpackPlugin({
+			filename: './about2.html',
+			chunks: ['common', 'about']
 		})
 	]
 }
